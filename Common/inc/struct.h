@@ -10,7 +10,7 @@ typedef struct ClientInfo
     int clientSocket;
     char clientId[MAX_CLIENT_COUNT];
     char clientAddress[BUFFER_SIZE];
-};
+} ClientInfo;
 
 // Holds overall client information
 typedef struct MasterList

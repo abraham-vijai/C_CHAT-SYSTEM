@@ -4,7 +4,7 @@
 
 int initSharedMemory(MasterList **masterList);
 
-int main()
+int main(int argc, char *argv[])
 {
     MasterList *masterList;
 
@@ -18,6 +18,13 @@ int main()
         return ERROR;
     }
 
+    // Checking the number of arguments
+    if(argc != 3)
+    {
+        printf ("chat-client -user<userID> -server<server name>\n");
+        return 0;
+    }
+    
     return 0;
 }
 

@@ -76,3 +76,45 @@ void logEvent(const char* format, ...)
 
     fclose(fp);
 }
+
+void logError(const char* errorMessage)
+{
+    FILE *fp = NULL;
+    time_t current_time;
+    struct tm *local_time;
+    char timestamp[64];
+    
+    // Get current time
+    time(&current_time);
+    local_time = localtime(&current_time);
+
+    // Format the timestamp
+    strftime(timestamp, sizeof(timestamp), "[%Y-%m-%d %H:%M:%S]", local_time);  
+    
+    // Open the file
+    fp = fopen(filePath, APPEND_MODE); 
+    
+    // Check if file opened successfully
+    if (fp == NULL) 
+    {
+        printf("ERROR: Cannot open log file for error message\n");
+        return;
+    }
+    
+    // Redirect stderr to the log file
+    if (dup2(fileno(fp), STDERR_FILENO) == -1) {
+        printf("ERROR: Cannot redirect stderr to log file\n");
+        fclose(fp);
+        return;
+    }
+    
+    // Print the timestamp and error message using perror to the redirected stderr
+    fprintf(stderr, "%s : [ERROR] ", timestamp);
+    perror(errorMessage);
+    
+    // Flush the stream to ensure all data is written to the file
+    fflush(stderr);
+
+    fclose(fp);
+}
+

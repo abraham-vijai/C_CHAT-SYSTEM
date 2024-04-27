@@ -5,10 +5,7 @@ Date        : 2024-04-02
 Description : This is the logger class
 */
 
-#include <stdio.h>
-#include <time.h>
-#include <string.h>
-#include <stdarg.h>
+#include "../inc/logger.h"
 
 char* filePath = NULL;
 

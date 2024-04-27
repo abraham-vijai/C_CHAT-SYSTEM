@@ -84,9 +84,11 @@ void parseArguments(int argc, char *argv[], char args[2][BUFFER_SIZE])
 int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
 {
     int serverSocket;
+    char buffer[BUFFER_SIZE];
     struct hostent* hostStruct;
     struct sockaddr_in serverStruct;
-
+    ClientInfo clientInfo;
+    
     // Getting host info
     logEvent("Getting host info with IP address ...");
     if((hostStruct = gethostbyname(args[1]))== NULL) 
@@ -115,4 +117,7 @@ int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
     // Store the IP address to the buffer
     inet_ntop(AF_INET, &(serverStruct.sin_addr), buffer, INET_ADDRSTRLEN);
 
+    // Initialize the ClientInfo struct
+    strcpy(clientInfo.clientAddress, buffer);
+    strcpy(clientInfo.clientId, args[0]);
 }

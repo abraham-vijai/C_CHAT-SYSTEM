@@ -107,10 +107,12 @@ int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
     logEvent("Creating server socket ...");
     if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        // Log the event
-        logEvent("ERROR: Cannot create socket");
+        logError("Cannot create socket");
         return ERROR;
     }
     logEvent("Socket successfully created");
+
+    // Store the IP address to the buffer
+    inet_ntop(AF_INET, &(serverStruct.sin_addr), buffer, INET_ADDRSTRLEN);
 
 }

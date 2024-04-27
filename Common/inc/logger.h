@@ -19,5 +19,6 @@ Description : Header file for logger.c
 
 void logInit(char* path);
 void logEvent(const char* format, ...);
+void logError(const char* errorMessage);
 
 #endif

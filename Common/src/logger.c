@@ -20,7 +20,7 @@ void logInit(char* path)
     FILE *fp = NULL;
     filePath = path;
 
-    fp = fopen(filePath, "a");
+    fp = fopen(filePath, WRITE_MODE);
     if (fp == NULL) 
     {
         printf("ERROR: Cannot open log file");
@@ -49,7 +49,7 @@ void logEvent(const char* format, ...)
     // Format the timestamp
     strftime(timestamp, sizeof(timestamp), "[%Y-%m-%d %H:%M:%S]", local_time);  
     
-    fp = fopen(filePath, "a"); // Open the file
+    fp = fopen(filePath, APPEND_MODE); // Open the file
     
     // Check if file opened successfully
     if (fp == NULL) 

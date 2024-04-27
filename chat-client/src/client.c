@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     // Parse the command line arguments
     parseArguments(argc, argv, args);
-    
+
     return 0;
 }
 
@@ -77,4 +77,9 @@ void parseArguments(int argc, char *argv[], char args[2][BUFFER_SIZE])
             args[1][strlen(args[1])] = '\0'; 
         } 
     }
+}
+
+int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
+{
+    
 }

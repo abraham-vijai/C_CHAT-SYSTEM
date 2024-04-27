@@ -3,6 +3,8 @@
 #include "../../Common/src/logger.c"
 
 int initSharedMemory(MasterList **masterList);
+void parseArguments(int argc, char *argv[], char args[2][BUFFER_SIZE]);
+int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE]);
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +44,7 @@ int initSharedMemory(MasterList **masterList)
     // Attempt to get shared memory block
     while((shmID = shmget(shmKey, sizeof(MasterList), 0) == ERROR))
     {
-        logEvent("ERROR: Cannot get shared memory block");
+        logError("Cannot get shared memory block");
         return ERROR;
     }
 
@@ -50,7 +52,7 @@ int initSharedMemory(MasterList **masterList)
     *masterList = (MasterList*) shmat(shmID, NULL, 0);
     if((*masterList) == NULL)
     {
-        logEvent("ERROR: Cannot get shaerd memory address");
+        logError("ERROR: Cannot get shaerd memory address");
         return ERROR;
     }
 
@@ -81,5 +83,24 @@ void parseArguments(int argc, char *argv[], char args[2][BUFFER_SIZE])
 
 int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
 {
+    int serverSocket;
+    struct hostent* hostStruct;
+    struct sockaddr_in serverStruct;
     
+    // Getting host info
+    logEvent("Getting host info with IP address ...");
+    if((hostStruct = gethostbyname(args[1]))== NULL) 
+    {
+        logError("Cannot get host");
+        return ERROR;
+    }
+
+    // Initialize the server struct
+    logEvent("Initializing server struct");
+    memset(&serverStruct, 0, sizeof(serverStruct)); // Set size to 0 
+    memcpy(&serverStruct.sin_addr, 
+    hostStruct->h_addr, hostStruct->h_length);      // Set server address 
+    serverStruct.sin_family = AF_INET;              // Set address type
+    serverStruct.sin_port = htons(PORT);            // Set port
+
 }

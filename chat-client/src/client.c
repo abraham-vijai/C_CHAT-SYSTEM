@@ -86,7 +86,7 @@ int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
     int serverSocket;
     struct hostent* hostStruct;
     struct sockaddr_in serverStruct;
-    
+
     // Getting host info
     logEvent("Getting host info with IP address ...");
     if((hostStruct = gethostbyname(args[1]))== NULL) 
@@ -102,5 +102,15 @@ int connectToServer(MasterList* masterList, char args[2][BUFFER_SIZE])
     hostStruct->h_addr, hostStruct->h_length);      // Set server address 
     serverStruct.sin_family = AF_INET;              // Set address type
     serverStruct.sin_port = htons(PORT);            // Set port
+
+    // Creating server socket
+    logEvent("Creating server socket ...");
+    if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
+        // Log the event
+        logEvent("ERROR: Cannot create socket");
+        return ERROR;
+    }
+    logEvent("Socket successfully created");
 
 }
